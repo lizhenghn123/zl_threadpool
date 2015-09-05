@@ -80,7 +80,7 @@ namespace zl
         if (!isRunning_)
         {
             pthread_mutex_unlock(&mutex_);  
-            break;
+            return task;
         }
 
         assert(!taskQueue_.empty());
