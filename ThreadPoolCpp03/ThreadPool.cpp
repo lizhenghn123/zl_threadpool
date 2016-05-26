@@ -99,7 +99,7 @@ namespace zl
             ThreadPool::Task task = pool->take();
             if (!task)
             {
-                printf("thread %lu will exit/n", tid);
+                printf("thread %lu will exit\n", tid);
                 break;
             }
 
