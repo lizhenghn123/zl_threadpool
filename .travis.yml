@@ -1,9 +1,24 @@
+dist: trusty
 language: cpp
 
 compiler:
     - gcc
       
-# Change this to your needs
+before_install:
+    - lsb_release -a
+
+install:
+    - 
+
+after_success:
+    - 
+
+branches:
+    only:
+    - master
+
+notifications:
+  email: true
 
 script:
     - make
