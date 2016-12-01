@@ -1,6 +1,7 @@
 #include "ThreadPool.h" 
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
 
 namespace zl
 {
