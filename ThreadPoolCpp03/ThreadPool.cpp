@@ -6,9 +6,9 @@ namespace zl
 {
     ThreadPool::ThreadPool(int threadNum)
     {
+        isRunning_ = true;
         threadsNum_ = threadNum;
         createThreads();
-        isRunning_ = true;
     }
 
     ThreadPool::~ThreadPool()

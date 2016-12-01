@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <functional>      // for std::function, std::bind
 
-// Ê¹ÓÃC++03/C++0x ÓïÑÔ¹æ·¶ÊµÏÖµÄÏß³Ì³Ø£º »ùÓÚ¶ÔÏó×ö·¨£¬Ã¿Ò»¸öjob¶¼ÊÇÒ»¸öfunction¶ÔÏó
+// ä½¿ç”¨C++03/C++0x è¯­è¨€è§„èŒƒå®ç°çš„çº¿ç¨‹æ± ï¼š åŸºäºå¯¹è±¡åšæ³•ï¼Œæ¯ä¸€ä¸ªjobéƒ½æ˜¯ä¸€ä¸ªfunctionå¯¹è±¡
 namespace zl
 {
     class ThreadPool

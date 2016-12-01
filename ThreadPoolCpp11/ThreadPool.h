@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-// C++11 °æµÄ Ïß³Ì³Ø
+// C++11 ç‰ˆçš„ çº¿ç¨‹æ± 
 namespace zl
 {
     class ThreadsGuard
