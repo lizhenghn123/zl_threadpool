@@ -107,10 +107,18 @@ namespace zl
                             return;
                         task = std::move(this->tasks_.front());
                         this->tasks_.pop();
+                        this->cond_.notify_one();
                     }
                     task();
                 }
             }));
+        }
+    }
+
+    void shutdown() {
+        std::unique_lock<std::mutex> ulk(mtx_);
+        cond_.wait(ulk, [this] {
+            return this->tasks_.empty();
         }
     }
 
