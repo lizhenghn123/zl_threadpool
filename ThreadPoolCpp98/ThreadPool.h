@@ -42,7 +42,6 @@ namespace zl
         size_t addTask(Task *task);
         void   stop();
         int    size();
-        Task*  take();
 
     private:
         int createThreads();
