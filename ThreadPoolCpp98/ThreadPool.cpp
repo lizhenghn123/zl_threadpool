@@ -80,25 +80,22 @@ namespace zl
         ThreadPool* pool = static_cast<ThreadPool*>(arg);
         while (pool->isRunning_)
         {
-            while (pool->isRunning_)
-            {
-                pthread_mutex_lock(&pool->mutex_);
-                while (pool->taskQueue_.empty() && pool->isRunning_) {
-                    pthread_cond_wait(&pool->condition_, &pool->mutex_);
-                }
-
-                if (!pool->isRunning_) {
-                    pthread_mutex_unlock(&pool->mutex_);
-                    printf("thread %lu will exit\n", tid);
-                    break;
-                }
-
-                Task* task = pool->taskQueue_.front();
-                pool->taskQueue_.pop_front();
-
-                pthread_mutex_unlock(&pool->mutex_);
-                task->run();
+            pthread_mutex_lock(&pool->mutex_);
+            while (pool->taskQueue_.empty() && pool->isRunning_) {
+                pthread_cond_wait(&pool->condition_, &pool->mutex_);
             }
+
+            if (!pool->isRunning_) {
+                pthread_mutex_unlock(&pool->mutex_);
+                printf("thread %lu will exit\n", tid);
+                break;
+            }
+
+            Task* task = pool->taskQueue_.front();
+            pool->taskQueue_.pop_front();
+
+            pthread_mutex_unlock(&pool->mutex_);
+            task->run();
         }
         return 0;
     }
