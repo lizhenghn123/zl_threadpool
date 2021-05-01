@@ -87,7 +87,7 @@ namespace zl
 
             if (!pool->isRunning_) {
                 pthread_mutex_unlock(&pool->mutex_);
-                printf("thread %lu will exit\n", tid);
+                //    printf("thread %lu will exit\n", tid);
                 break;
             }
 
@@ -96,6 +96,10 @@ namespace zl
 
             pthread_mutex_unlock(&pool->mutex_);
             task->run();
+
+        }
+        if (!pool->isRunning_) {
+            printf("thread %lu will exit\n", tid);
         }
         return 0;
     }
