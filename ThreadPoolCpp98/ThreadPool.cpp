@@ -74,52 +74,31 @@ namespace zl
         return size;
     }
 
-    Task* ThreadPool::take()
-    {
-        Task* task = NULL;
-        while (!task)
-        {
-            pthread_mutex_lock(&mutex_);
-            while (taskQueue_.empty() && isRunning_)
-            {
-                pthread_cond_wait(&condition_, &mutex_);
-            }
-
-            if (!isRunning_)
-            {
-                pthread_mutex_unlock(&mutex_);
-                
-                break;
-            }
-            else if (taskQueue_.empty())
-            {
-                pthread_mutex_unlock(&mutex_);
-                continue;
-            }
-
-            assert(!taskQueue_.empty());
-            task = taskQueue_.front();
-            taskQueue_.pop_front();
-            pthread_mutex_unlock(&mutex_);
-        }
-        return task;
-    }
-
     void* ThreadPool::threadFunc(void* arg)
     {
         pthread_t tid = pthread_self();
         ThreadPool* pool = static_cast<ThreadPool*>(arg);
         while (pool->isRunning_)
         {
-            Task* task = pool->take();
-            if (!task)
+            while (pool->isRunning_)
             {
-                printf("thread %lu will exit\n", tid);
-                break;
-            }
+                pthread_mutex_lock(&pool->mutex_);
+                while (pool->taskQueue_.empty() && pool->isRunning_) {
+                    pthread_cond_wait(&pool->condition_, &pool->mutex_);
+                }
 
-            assert(task);
-            task->run();
+                if (!pool->isRunning_) {
+                    pthread_mutex_unlock(&pool->mutex_);
+                    printf("thread %lu will exit\n", tid);
+                    break;
+                }
+
+                Task* task = pool->taskQueue_.front();
+                pool->taskQueue_.pop_front();
+
+                pthread_mutex_unlock(&pool->mutex_);
+                task->run();
+            }
         }
         return 0;
     }
